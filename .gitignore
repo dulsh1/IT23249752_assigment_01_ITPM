@@ -1,32 +1,12 @@
-# macOS
-.DS_Store
-
-# Node
+/node_modules/
 node_modules/
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# Environment files
-.env
-*.env*
-
-# VS Code
-.vscode/
+.history/
+.idea/
+*.sublime-workspace
+*.sublime-project
 *.code-workspace
-
-# Coverage
-coverage/
-
-# Playwright artifacts
-playwright-report/
-test-results/
-
-# Subproject Playwright artifacts (safety)
-singlish-playwright/playwright-report/
-singlish-playwright/test-results/
-
-# OS Trash (sometimes causes git errors on macOS)
-**/.Trash/
+*.tmp
+*.log
+*.bak
+*.swp
+*.DS_Store
