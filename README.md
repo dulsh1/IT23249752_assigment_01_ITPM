@@ -19,8 +19,8 @@ IT23249752/
 │     ├─ IT23249752_negative_ui.spec.ts
 |     ├─ IT23249752_positive_functional.spec.ts
 │     └─ IT23249752_positive_ui.spec.ts
-├─ IT23288430_GitHub_Link.txt
-├─ IT23288430_TestCases.xlsx
+├─ IT23249752_GitHub_Link.txt
+├─ IT23249752_TestCases.xlsx
 ├─ package-lock.json
 ├─ package.json
 └─ README.md
