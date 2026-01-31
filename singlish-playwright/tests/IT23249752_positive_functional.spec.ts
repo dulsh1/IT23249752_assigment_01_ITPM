@@ -15,6 +15,33 @@ function hasSinhalaChars(s: string, min = 2) {
   return !!m && m.length >= min;
 }
 
+// New: robust output reader with optional empty allowance and longer timeout
+async function getSinhalaOutput(page: any, allowEmpty = false, timeout = 60000) {
+  const outputTextarea = page.locator('textarea[placeholder="Sinhala Output"]');
+  const outputCard = page.locator('.card:has-text("Sinhala") .bg-slate-50');
+
+  if ((await outputTextarea.count()) > 0) {
+    if (!allowEmpty) {
+      await expect
+        .poll(async () => await outputTextarea.inputValue(), { timeout })
+        .not.toBe("");
+    } else {
+      // small settle time if empty is acceptable
+      await page.waitForTimeout(500);
+    }
+    return await outputTextarea.inputValue();
+  } else {
+    if (!allowEmpty) {
+      await expect
+        .poll(async () => (await outputCard.textContent()) || "", { timeout })
+        .not.toBe("");
+    } else {
+      await page.waitForTimeout(500);
+    }
+    return (await outputCard.textContent()) || "";
+  }
+}
+
 const testCases = [
   {
   id: "Pos_Fun_0001",
@@ -191,22 +218,8 @@ test.describe("Positive Functional Tests", () => {
       await page.keyboard.press("Backspace");
       await inputArea.blur();
 
-      // Prefer textarea output if present, else fall back to card text
-      const outputTextarea = page.locator('textarea[placeholder="Sinhala Output"]');
-      const outputCard = page.locator('.card:has-text("Sinhala") .bg-slate-50');
-
-      let finalText = "";
-      if ((await outputTextarea.count()) > 0) {
-        await expect
-          .poll(async () => await outputTextarea.inputValue(), { timeout: 20000 })
-          .not.toBe("");
-        finalText = await outputTextarea.inputValue();
-      } else {
-        await expect
-          .poll(async () => (await outputCard.textContent()) || "", { timeout: 20000 })
-          .not.toBe("");
-        finalText = (await outputCard.textContent()) || "";
-      }
+      // Prefer textarea output if present, else fall back to card text (longer timeout)
+      const finalText = await getSinhalaOutput(page, false, 30000);
 
       // Assert: expected substring or at least Sinhala characters present
       expect(

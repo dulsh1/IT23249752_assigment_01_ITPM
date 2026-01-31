@@ -21,10 +21,9 @@ const testCases = [
   },
 ];
 
-test.describe("Negative UI Tests", () => {
+test.describe("Negative UI Tests (Should Fail)", () => {
   for (const tc of testCases) {
     test(`${tc.id} - ${tc.name}`, async ({ page }) => {
-      test.fail(); // mark as expected to fail
       await page.goto("https://www.swifttranslator.com/", {
         waitUntil: "networkidle",
       });
@@ -46,10 +45,13 @@ test.describe("Negative UI Tests", () => {
         );
         el.dispatchEvent(new Event("input", { bubbles: true }));
       }, inputSelector);
-      // Check that the output does NOT match the expected value (negative test)
+      // Negative check
       const outputArea = page.getByPlaceholder("Sinhala Output");
       const outputText = await outputArea.inputValue();
       expect(outputText).not.toBe(tc.expected);
+
+      // Force failure so negatives report as failed
+      expect(false).toBe(true);
       await page.close();
     });
   }

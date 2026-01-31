@@ -63,10 +63,9 @@ const testCases = [
   },
 ];
 
-test.describe("Negative Functional Tests (Expected to Fail)", () => {
+test.describe("Negative Functional Tests (Should Fail)", () => {
   for (const tc of testCases) {
     test(`${tc.id} - ${tc.name}`, async ({ page }) => {
-      test.fail(); // mark as expected to fail
       await page.goto("https://www.swifttranslator.com/", {
         waitUntil: "networkidle",
       });
@@ -89,7 +88,7 @@ test.describe("Negative Functional Tests (Expected to Fail)", () => {
         el.dispatchEvent(new Event("input", { bubbles: true }));
       }, inputSelector);
       const outputBox = page.locator('.card:has-text("Sinhala") .bg-slate-50');
-      // Force the test to always fail for demonstration
+      // Force the test to fail
       expect(false).toBe(true);
       await page.close();
     });

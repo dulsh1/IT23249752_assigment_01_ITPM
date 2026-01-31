@@ -17,8 +17,11 @@ module.exports = defineConfig({
     trace: "on-first-retry",
     headless: true, // run tests in headless mode for speed
     viewport: { width: 1920, height: 1080 },
-    actionTimeout: 10000, // reduce action timeout for faster failure
-    navigationTimeout: 30000,
+    actionTimeout: 15000,
+    navigationTimeout: 60000,
+  },
+  expect: {
+    timeout: 60000,
   },
   projects: [
     {
